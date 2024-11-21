@@ -1,10 +1,15 @@
 #include <Arduino.h>
+#include "scheduler.h"
+
+#define BASE_PERIOD 50
+
+Scheduler sched;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  sched.init(BASE_PERIOD);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  sched.schedule();
 }
