@@ -5,7 +5,6 @@ void Scheduler::init(int basePeriod) {
     this->basePeriod = basePeriod;
     timer.setupPeriod(basePeriod);
     nTasks = 0;
-    Serial.println("Init scheduler");
 }
 
 bool Scheduler::addTask(Task *task) {
