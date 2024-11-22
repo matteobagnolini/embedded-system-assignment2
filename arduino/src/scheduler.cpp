@@ -1,33 +1,25 @@
 #include "scheduler/scheduler.h"
-#include <TimerOne.h>
-
-volatile bool timerFlag;
-
-void timerHandler(void) {
-    timerFlag = true;
-}
+#include <Arduino.h>
 
 void Scheduler::init(int basePeriod) {
     this->basePeriod = basePeriod;
-    timerFlag = false;
-    long period = 1000*basePeriod;
-    Timer1.initialize(period);
-    Timer1.attachInterrupt(timerHandler);
+    timer.setupPeriod(basePeriod);
     nTasks = 0;
+    Serial.println("Init scheduler");
 }
 
 bool Scheduler::addTask(Task *task) {
-    if (nTasks < MAX_TASKS-1) {
+    if (nTasks < MAX_TASKS-1){
         taskList[nTasks] = task;
+        nTasks++;
         return true;
-    }
-    return false;
+    } else {
+        return false; 
+  }
 }
 
 void Scheduler::schedule() {
-    while (!timerFlag) {}   // Wait for next period elapsed
-    timerFlag = false;
-
+    timer.waitForNextTick();
     for (int i = 0; i < nTasks; i++) {
         if (taskList[i]->updateAndCheckTime(basePeriod)) {
             taskList[i]->tick();

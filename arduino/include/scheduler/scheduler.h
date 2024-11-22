@@ -1,6 +1,7 @@
 #pragma once
 
 #include "task.h"
+#include "timer/timer.h"
 
 #define MAX_TASKS 10
 
@@ -9,6 +10,7 @@ class Scheduler {
     int basePeriod;
     int nTasks;
     Task *taskList[MAX_TASKS];
+    Timer timer;
 
 public:
     void init(int basePeriod);
