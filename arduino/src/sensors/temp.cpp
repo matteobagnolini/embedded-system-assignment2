@@ -1,4 +1,4 @@
-#include "temp.h"
+#include "hardware/temp.h"
 #include <Arduino.h>
 
 Temp::Temp(int pin, float maxTemp) {
