@@ -14,17 +14,18 @@ void TempDetectTask::init(int period) {
 
 void TempDetectTask::tick() {
     long currTime = millis();
+    bool tempOk = temp->isTempOk();
     switch (state) {
 
         case NORMAL_TEMP:
-            if (!temp->isTempOk()) {
+            if (!tempOk) {
                 state = HIGH_TEMP;
                 timeOnHighTemp = 0;
             }
             break;
         
         case HIGH_TEMP:
-            if (temp->isTempOk()) {
+            if (tempOk) {
                 state = NORMAL_TEMP;
             } else {
                 timeOnHighTemp += currTime - lastTimeCheck;
