@@ -2,14 +2,17 @@
 #include "scheduler/scheduler.h"
 #include "tasks/tempDetectTask.h"
 #include "tasks/wasteDetectTask.h"
+#include "tasks/userDetectTask.h"
 
 #define BASE_PERIOD 50
 #define TEMP_TASK_PERIOD 150
 #define WASTE_DET_TASK_PERIOD 150
+#define USER_DET_TASK_PERIOD 150
 
 #define TEMP_PIN A0
 #define WASTE_DET_TRIGGPIN 7
 #define WASTE_DET_ECHOPIN 8
+#define USER_DET_PIN 2
 
 Scheduler sched;
 
@@ -24,6 +27,10 @@ void setup() {
     Task *t1 = new WasteDetectTask(WASTE_DET_TRIGGPIN, WASTE_DET_ECHOPIN);
     t1->init(WASTE_DET_TASK_PERIOD);
     sched.addTask(t1);
+
+    Task *t2 = new UserDetectTask(USER_DET_PIN);
+    t2->init(USER_DET_TASK_PERIOD);
+    sched.addTask(t2);
 }
 
 void loop() {
