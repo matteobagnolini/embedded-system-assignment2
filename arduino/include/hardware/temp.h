@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sensors/tempDetector.h"
+#include "devices/tempDetector.h"
 
 class Temp: public TempDetector {
 public:

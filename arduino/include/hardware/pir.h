@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sensors/userDetector.h"
+#include "devices/userDetector.h"
 
 #define CALIBRATION_TIME_SEC 30
 

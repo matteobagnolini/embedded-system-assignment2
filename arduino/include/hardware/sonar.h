@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sensors/wasteDetector.h"
+#include "devices/wasteDetector.h"
 
 #define SPEED_OF_SOUND 343.4
 
