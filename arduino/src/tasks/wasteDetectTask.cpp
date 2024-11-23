@@ -17,6 +17,8 @@ void WasteDetectTask::tick() {
         case EMPTY:
             if (dist <= EMPTY_DISTANCE && dist >= THRESHOLD_DISTANCE) {
                 state = PARTIAL;
+            } else if (dist <= THRESHOLD_DISTANCE) {
+                state = FULL;
             }
         break;
     
