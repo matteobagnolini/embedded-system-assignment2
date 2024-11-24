@@ -4,21 +4,13 @@
 #include "tasks/wasteDetectTask.h"
 #include "tasks/userDetectTask.h"
 
-#define BASE_PERIOD 50
-#define TEMP_TASK_PERIOD 150
-#define WASTE_DET_TASK_PERIOD 150
-#define USER_DET_TASK_PERIOD 150
-
-#define TEMP_PIN A0
-#define WASTE_DET_TRIGGPIN 7
-#define WASTE_DET_ECHOPIN 8
-#define USER_DET_PIN 2
+#include "config.h"
 
 Scheduler sched;
 
 void setup() {
     Serial.begin(9600);
-    sched.init(BASE_PERIOD);
+    sched.init(SCHEDULER_BASE_PERIOD);
 
     Task *t0 = new TempDetectTask(TEMP_PIN);
     t0->init(TEMP_TASK_PERIOD);
