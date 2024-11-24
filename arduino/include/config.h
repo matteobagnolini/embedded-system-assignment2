@@ -7,3 +7,6 @@
 #define WASTE_DET_TRIGGPIN 7
 #define WASTE_DET_ECHOPIN 8
 #define USER_DET_PIN 2
+#define SERVO_MOTOR_PIN 3
+#define GREEN_LED_PI 12
+#define RED_LED_PIN 13
