@@ -1,11 +1,9 @@
 #include "hardware/lcd.h"
 #include <Arduino.h>
 
-LCD::LCD() : lcd(0x27, 20, 4) {
-    Serial.println("Inside lcd init");  
+LCD::LCD() : lcd(LCD_I2C_ADDR, LCD_COLS, LCD_ROWS) {
     lcd.init();
     lcd.backlight();
-    Serial.println("Init lcd");
 }
 
 void LCD::display(char *msg) {
