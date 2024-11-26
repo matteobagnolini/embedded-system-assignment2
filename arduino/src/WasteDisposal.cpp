@@ -3,6 +3,7 @@
 #include "tasks/tempDetectTask.h"
 #include "tasks/wasteDetectTask.h"
 #include "tasks/userDetectTask.h"
+#include "tasks/wasteDisposalTask.h"
 
 #include "config.h"
 
@@ -23,6 +24,16 @@ void setup() {
     Task *t2 = new UserDetectTask(USER_DET_PIN);
     t2->init(USER_DET_TASK_PERIOD);
     sched.addTask(t2);
+
+    Task *t3 = new WasteDisposalTask(
+                                     GREEN_LED_PIN,
+                                     RED_LED_PIN,
+                                     OPEN_BUTTON_PIN,
+                                     CLOSE_BUTTON_PIN,
+                                     SERVO_MOTOR_PIN
+                                    );
+    t3->init(WASTE_DISP_TASK_PERIOD);
+    sched.addTask(t3);
 }
 
 void loop() {
