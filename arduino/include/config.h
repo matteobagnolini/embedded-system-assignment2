@@ -1,9 +1,11 @@
+/* =========== TASKS PERIODS =========== */
 #define SCHEDULER_BASE_PERIOD 50
 #define TEMP_TASK_PERIOD 150
 #define WASTE_DET_TASK_PERIOD 150
 #define USER_DET_TASK_PERIOD 150
 #define WASTE_DISP_TASK_PERIOD 200
 
+/* =========== DEVICES PINS =========== */
 #define TEMP_PIN A0
 #define WASTE_DET_TRIGGPIN 7
 #define WASTE_DET_ECHOPIN 8
