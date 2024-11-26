@@ -1,5 +1,6 @@
 #include "tasks/userDetectTask.h"
 #include <Arduino.h>
+#include "globals.h"
 
 UserDetectTask::UserDetectTask(int pin) {
     this->pir = new Pir(pin);
@@ -10,6 +11,7 @@ void UserDetectTask::init(int period) {
     pir->calibrate();
     this->timeElapsedNoDetection = 0;
     state = SLEEP;
+    sleepMode = true;
 }
 
 void UserDetectTask::tick() {
@@ -21,6 +23,7 @@ void UserDetectTask::tick() {
             if (detected) {
                 timeElapsedNoDetection = 0;
                 state = READY;
+                sleepMode = false;
             }
             break;
         
@@ -32,6 +35,7 @@ void UserDetectTask::tick() {
             }
             if (timeElapsedNoDetection >= TIME_BEFORE_SLEEP_SEC*1000) {
                 state = SLEEP;
+                sleepMode = true;
             }
             break;
 
