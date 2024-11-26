@@ -1,5 +1,6 @@
 #include "tasks/wasteDetectTask.h"
 #include <Arduino.h>
+#include "globals.h"
 
 WasteDetectTask::WasteDetectTask(int triggPin, int echoPin) {
     this->sonar = new Sonar(triggPin, echoPin);
@@ -8,6 +9,7 @@ WasteDetectTask::WasteDetectTask(int triggPin, int echoPin) {
 void WasteDetectTask::init(int period) {
     Task::init(period);
     this->state = EMPTY;
+    isContainerFull = false;
 }
 
 void WasteDetectTask::tick() {
@@ -19,6 +21,7 @@ void WasteDetectTask::tick() {
                 state = PARTIAL;
             } else if (dist <= THRESHOLD_DISTANCE) {
                 state = FULL;
+                isContainerFull = true;
             }
         break;
     
@@ -27,12 +30,14 @@ void WasteDetectTask::tick() {
             state = EMPTY;
         } else if (dist <= THRESHOLD_DISTANCE) {
             state = FULL;
+            isContainerFull = true;
         }
         break;
 
     case FULL:
         if (dist > THRESHOLD_DISTANCE) {
             state = PARTIAL;
+            isContainerFull = false;
         }
         break;
 
