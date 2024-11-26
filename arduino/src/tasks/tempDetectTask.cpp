@@ -1,5 +1,6 @@
 #include "tasks/tempDetectTask.h"
 #include <Arduino.h>
+#include "globals.h"
 
 TempDetectTask::TempDetectTask(int pin) {
     this->temp = new Temp(pin, MAX_TEMP);
@@ -10,6 +11,7 @@ void TempDetectTask::init(int period) {
     this->timeOnHighTemp = 0;
     this->lastTimeCheck = millis();     // can we delete this? We dont need lastTimeCheck in first state
     this->state = NORMAL_TEMP;
+    tempProblemDetected = false;
 }
 
 void TempDetectTask::tick() {
@@ -32,11 +34,14 @@ void TempDetectTask::tick() {
             }
             if (timeOnHighTemp >= MAX_TIME_ON_HIGH_TEMP*1000) {
                 state = PROBLEM_DETECTED;
+                tempProblemDetected = true;
             }
             break;
         
         case PROBLEM_DETECTED:
-            // Problem detected
+            if (isTempProblemResolved) {
+                state = NORMAL_TEMP;
+            }
             break;
 
     }
