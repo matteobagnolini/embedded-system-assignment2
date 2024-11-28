@@ -3,8 +3,8 @@
 #include "scheduler/task.h"
 #include "hardware/temp.h"
 
-#define MAX_TEMP 30.0
-#define MAX_TIME_ON_HIGH_TEMP 10        // seconds
+#define MAX_TEMP 18.0
+#define MAX_TIME_ON_HIGH_TEMP 5        // seconds
 
 class TempDetectTask : public Task {
 public:
