@@ -2,7 +2,7 @@
 
 #include "devices/userDetector.h"
 
-#define CALIBRATION_TIME_SEC 5
+#define CALIBRATION_TIME_SEC 1
 
 class Pir : public UserDetector {
 
