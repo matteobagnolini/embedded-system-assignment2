@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "tasks/wasteDisposalTask.h"
+#include "hardware/lcd.h"
 #include "globals.h"
 
 WasteDisposalTask::WasteDisposalTask(
@@ -24,7 +25,9 @@ void WasteDisposalTask::init(int period) {
     closeButton = new Button(closeButtonPin);
     servoDoor = new ServoMotor(servoMotorPin);
     state = AVAILABLE;
-    servoDoor->close();     //check if this is ok
+    servoDoor->close();
+    lcd.display("Init completed..");
+    Serial.println("Init completed");
 }
 
 void WasteDisposalTask::tick() {
@@ -35,6 +38,7 @@ void WasteDisposalTask::tick() {
         
         case AVAILABLE:
             greenLed->switchOn();
+            lcd.display("PRESS OPEN TO ENTER WASTE");
             if (openButtonPressed) {
                 state = RECEIVING;
                 servoDoor->open();
@@ -43,6 +47,7 @@ void WasteDisposalTask::tick() {
         
         case RECEIVING:
             timeInCurrState += currTime - lastTimeCheck;
+            lcd.display("PRESS CLOSE WHEN DONE");
             if ( isContainerFull ||
                  timeInCurrState >= MAX_TIME_TO_RECEIVE_WASTE_SEC*1000 ||
                  closeButtonPressed ) {
@@ -53,6 +58,7 @@ void WasteDisposalTask::tick() {
         
         case RECEIVED:
             timeInCurrState += currTime - lastTimeCheck;
+            lcd.display("WASTE RECEIVED");
             if (isContainerFull) {
                 state = CONTAINER_FULL;
                 timeInCurrState = 0;
@@ -65,6 +71,7 @@ void WasteDisposalTask::tick() {
         case CONTAINER_FULL:
             greenLed->switchOff();
             redLed->switchOn();
+            lcd.display("CONTAINER FULL");
             if (doEmptyContainer) {
                 state = EMPTYING;
                 servoDoor->openReverse();
@@ -73,6 +80,7 @@ void WasteDisposalTask::tick() {
         
         case EMPTYING:
             timeInCurrState += currTime - lastTimeCheck;
+            lcd.display("EMPTYING THE CONTAINER..");
             if (timeInCurrState >= TIME_TO_EMPTY_CONTAINER_SEC*1000) {
                 state = AVAILABLE;
                 redLed->switchOff();

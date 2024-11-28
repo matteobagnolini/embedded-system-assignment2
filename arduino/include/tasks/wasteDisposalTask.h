@@ -33,7 +33,7 @@ private:
     Button *closeButton;
     ServoMotor *servoDoor;
     int lastTimeCheck;
-    int timeInCurrState;
+    long timeInCurrState;
     
     enum { AVAILABLE,
            RECEIVING,

@@ -9,8 +9,11 @@
 
 Scheduler sched;
 
+bool isContainerFull, sleepMode, tempProblemDetected, isTempProblemResolved, doEmptyContainer;
+
 void setup() {
     Serial.begin(9600);
+    Serial.println("Starting program");
     sched.init(SCHEDULER_BASE_PERIOD);
 
     Task *t0 = new TempDetectTask(TEMP_PIN);

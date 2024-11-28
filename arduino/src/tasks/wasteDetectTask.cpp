@@ -1,6 +1,8 @@
 #include "tasks/wasteDetectTask.h"
 #include <Arduino.h>
-#include "globals.h"
+// #include "globals.h"
+
+extern bool isContainerFull;
 
 WasteDetectTask::WasteDetectTask(int triggPin, int echoPin) {
     this->sonar = new Sonar(triggPin, echoPin);
