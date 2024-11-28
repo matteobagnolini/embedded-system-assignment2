@@ -28,7 +28,7 @@ void WasteDisposalTask::init(int period) {
 }
 
 void WasteDisposalTask::tick() {
-    currTime = millis();
+    long currTime = millis();
     bool openButtonPressed = openButton->isPressed();
     bool closeButtonPressed = closeButton->isPressed();
     switch (state) {

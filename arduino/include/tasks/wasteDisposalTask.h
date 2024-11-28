@@ -32,7 +32,6 @@ private:
     Button *openButton;
     Button *closeButton;
     ServoMotor *servoDoor;
-    int currTime;
     int lastTimeCheck;
     int timeInCurrState;
     
