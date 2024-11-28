@@ -16,12 +16,11 @@ void WasteDetectTask::init(int period) {
 
 void WasteDetectTask::tick() {
     float dist = sonar->getDistance();
-    Serial.print("DIST: ");
-    Serial.println(dist);
     switch (state) {
 
         case EMPTY:
             Serial.println("DIST: EMPTY");
+            isContainerFull = false;
             if (dist <= EMPTY_DISTANCE && dist >= THRESHOLD_DISTANCE) {
                 state = PARTIAL;
             } else if (dist <= THRESHOLD_DISTANCE) {
