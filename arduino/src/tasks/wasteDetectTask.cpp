@@ -19,7 +19,6 @@ void WasteDetectTask::tick() {
     switch (state) {
 
         case EMPTY:
-            Serial.println("DIST: EMPTY");
             isContainerFull = false;
             if (dist <= EMPTY_DISTANCE && dist >= THRESHOLD_DISTANCE) {
                 state = PARTIAL;
@@ -30,7 +29,6 @@ void WasteDetectTask::tick() {
         break;
     
     case PARTIAL:
-        Serial.println("DIST: PARTIAL");
         if (dist >= EMPTY_DISTANCE) {
             state = EMPTY;
         } else if (dist <= THRESHOLD_DISTANCE) {
@@ -40,7 +38,6 @@ void WasteDetectTask::tick() {
         break;
 
     case FULL:
-        Serial.println("DIST: FULL");
         if (dist > THRESHOLD_DISTANCE) {
             state = PARTIAL;
             isContainerFull = false;

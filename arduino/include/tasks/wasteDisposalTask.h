@@ -7,7 +7,7 @@
 #include "hardware/lcd.h"
 
 #define MAX_TIME_TO_RECEIVE_WASTE_SEC 30
-#define TIME_BEFORE_BEING_AVAILABLE_AGAIN_SEC 10
+#define TIME_BEFORE_BEING_AVAILABLE_AGAIN_SEC 3
 #define TIME_TO_EMPTY_CONTAINER_SEC 10
 
 class WasteDisposalTask : public Task {
@@ -34,14 +34,15 @@ private:
     Button *closeButton;
     ServoMotor *servoDoor;
     LCD *lcd;
-    int lastTimeCheck;
-    long timeInCurrState;
+    unsigned long lastTimeCheck;
+    unsigned long timeInCurrState;
     
     enum State { AVAILABLE,
            RECEIVING,
            RECEIVED,
            CONTAINER_FULL,
-           EMPTYING
+           EMPTYING,
+           PROBLEM_DETECTED
           } state;
 
 };

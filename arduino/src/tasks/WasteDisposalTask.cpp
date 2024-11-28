@@ -15,6 +15,8 @@ WasteDisposalTask::WasteDisposalTask(
     this->openButtonPin = openButtonPin;
     this->closeButtonPin = closeButtonPin;
     this->servoMotorPin = servoMotorPin;
+    timeInCurrState = 0;
+    lastTimeCheck = 0;
 }
 
 void WasteDisposalTask::init(int period) {
@@ -32,25 +34,30 @@ void WasteDisposalTask::init(int period) {
 }
 
 void WasteDisposalTask::tick() {
-    long currTime = millis();
+    unsigned long currTime = millis();
     bool openButtonPressed = openButton->isPressed();
     bool closeButtonPressed = closeButton->isPressed();
     switch (state) {
         
         case AVAILABLE:
-            Serial.println("WST: AVAILABLE");
             greenLed->switchOn();
             lcd->display("PRESS OPEN TO ENTER WASTE");
+            if (isContainerFull) {
+                state = CONTAINER_FULL;
+                servoDoor->close();
+                timeInCurrState = 0;
+            }
             if (openButtonPressed) {
                 state = RECEIVING;
                 servoDoor->open();
                 timeInCurrState = 0;
-                lcd->clear();
+            }
+            if (tempProblemDetected) {
+                state = PROBLEM_DETECTED;
             }
             break;
         
         case RECEIVING:            
-            Serial.println("WST: RECEIVING");
             timeInCurrState += currTime - lastTimeCheck;
             lcd->display("PRESS CLOSE WHEN DONE");
             if ( isContainerFull ||
@@ -59,12 +66,14 @@ void WasteDisposalTask::tick() {
                 state = RECEIVED;
                 servoDoor->close();
                 timeInCurrState = 0;
-                lcd->clear();
+            }
+            if (tempProblemDetected) {
+                servoDoor->close();
+                state = PROBLEM_DETECTED;
             }
             break;
         
         case RECEIVED:
-            Serial.println("WST: RECEIVED");
             timeInCurrState += currTime - lastTimeCheck;
             lcd->display("WASTE RECEIVED");
             if (isContainerFull) {
@@ -74,12 +83,10 @@ void WasteDisposalTask::tick() {
             if (timeInCurrState >= TIME_BEFORE_BEING_AVAILABLE_AGAIN_SEC*1000) {
                 state = AVAILABLE;
                 timeInCurrState = 0;
-                lcd->clear();
             }
             break;
         
         case CONTAINER_FULL:
-            Serial.println("WST: FULL");
             greenLed->switchOff();
             redLed->switchOn();
             lcd->display("CONTAINER FULL");
@@ -87,22 +94,32 @@ void WasteDisposalTask::tick() {
                 state = EMPTYING;
                 servoDoor->openReverse();
                 timeInCurrState = 0;
-                lcd->clear();
+            }
+            if (tempProblemDetected) {
+                state = PROBLEM_DETECTED;
             }
             break;
         
         case EMPTYING:
-            Serial.println("WST: EMPTYING");
             timeInCurrState += currTime - lastTimeCheck;
             lcd->display("EMPTYING THE CONTAINER..");
             if (timeInCurrState >= TIME_TO_EMPTY_CONTAINER_SEC*1000) {
                 state = AVAILABLE;
-                doEmptyContainer = false;
                 redLed->switchOff();
                 greenLed->switchOn();
-                lcd->clear();
             }
             break;
+
+        case PROBLEM_DETECTED:
+            lcd->display("PROBLEM DETECTED");
+            greenLed->switchOff();
+            redLed->switchOn();
+            if (!tempProblemDetected) {
+                if (isContainerFull)
+                    state = CONTAINER_FULL;
+                else
+                    state = AVAILABLE;
+            }
 
     }
     lastTimeCheck = currTime;
