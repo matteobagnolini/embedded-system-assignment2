@@ -6,7 +6,7 @@
 #include "hardware/servoMotor.h"
 #include "hardware/lcd.h"
 
-#define MAX_TIME_TO_RECEIVE_WASTE_SEC 60
+#define MAX_TIME_TO_RECEIVE_WASTE_SEC 30
 #define TIME_BEFORE_BEING_AVAILABLE_AGAIN_SEC 10
 #define TIME_TO_EMPTY_CONTAINER_SEC 10
 
@@ -37,7 +37,7 @@ private:
     int lastTimeCheck;
     long timeInCurrState;
     
-    enum { AVAILABLE,
+    enum State { AVAILABLE,
            RECEIVING,
            RECEIVED,
            CONTAINER_FULL,
