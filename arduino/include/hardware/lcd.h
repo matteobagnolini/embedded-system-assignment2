@@ -18,3 +18,5 @@ private:
     LiquidCrystal_I2C lcd;
 
 };
+
+extern LCD lcd;
