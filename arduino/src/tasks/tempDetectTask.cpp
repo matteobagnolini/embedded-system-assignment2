@@ -16,6 +16,7 @@ void TempDetectTask::init(int period) {
 
 void TempDetectTask::tick() {
     long currTime = millis();
+    temperature = temp->getTemperature();
     bool tempOk = temp->isTempOk();
     switch (state) {
 
@@ -39,7 +40,7 @@ void TempDetectTask::tick() {
             break;
         
         case PROBLEM_DETECTED:
-            if (isTempProblemResolved) {
+            if (!tempProblemDetected) {
                 state = NORMAL_TEMP;
             }
             break;

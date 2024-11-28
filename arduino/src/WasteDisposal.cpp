@@ -10,6 +10,7 @@
 Scheduler sched;
 
 bool isContainerFull, sleepMode, tempProblemDetected, isTempProblemResolved, doEmptyContainer;
+float temperature;
 
 void setup() {
     Serial.begin(9600);
