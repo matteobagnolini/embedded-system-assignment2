@@ -20,6 +20,7 @@ void TempDetectTask::tick() {
     switch (state) {
 
         case NORMAL_TEMP:
+            Serial.println("TEMP: NORMAL_TEMP");
             if (!tempOk) {
                 state = HIGH_TEMP;
                 timeOnHighTemp = 0;
@@ -27,6 +28,7 @@ void TempDetectTask::tick() {
             break;
         
         case HIGH_TEMP:
+            Serial.println("TEMP: HIGH_TEMP");
             if (tempOk) {
                 state = NORMAL_TEMP;
             } else {
@@ -39,6 +41,7 @@ void TempDetectTask::tick() {
             break;
         
         case PROBLEM_DETECTED:
+            Serial.println("TEMP: PROBL_DETECT");
             if (isTempProblemResolved) {
                 state = NORMAL_TEMP;
             }

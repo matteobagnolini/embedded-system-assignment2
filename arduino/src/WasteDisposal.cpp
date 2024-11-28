@@ -37,6 +37,7 @@ void setup() {
                                     );
     t3->init(WASTE_DISP_TASK_PERIOD);
     sched.addTask(t3);
+    Serial.println("Starting program...");
 }
 
 void loop() {

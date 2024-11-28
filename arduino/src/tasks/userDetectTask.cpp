@@ -17,9 +17,14 @@ void UserDetectTask::init(int period) {
 void UserDetectTask::tick() {
     int currTime = millis();
     bool detected = pir->isUserDetected();
+    if (detected)
+        Serial.println("USDETECT: TRUE");
+    else
+        Serial.println("USDETECT: FALSE");
     switch (state) {
 
         case SLEEP:
+            Serial.println("USDETECT: SLEEP");
             if (detected) {
                 timeElapsedNoDetection = 0;
                 state = READY;

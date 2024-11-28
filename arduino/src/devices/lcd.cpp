@@ -14,5 +14,3 @@ void LCD::display(char *msg) {
 void LCD::clear() {
     lcd.clear();
 }
-
-LCD lcd;

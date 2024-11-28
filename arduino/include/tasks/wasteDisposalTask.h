@@ -4,6 +4,7 @@
 #include "hardware/led.h"
 #include "hardware/button.h"
 #include "hardware/servoMotor.h"
+#include "hardware/lcd.h"
 
 #define MAX_TIME_TO_RECEIVE_WASTE_SEC 60
 #define TIME_BEFORE_BEING_AVAILABLE_AGAIN_SEC 10
@@ -32,6 +33,7 @@ private:
     Button *openButton;
     Button *closeButton;
     ServoMotor *servoDoor;
+    LCD *lcd;
     int lastTimeCheck;
     long timeInCurrState;
     

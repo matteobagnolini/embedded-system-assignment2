@@ -3,8 +3,8 @@
 #include "hardware/sonar.h"
 #include "scheduler/task.h"
 
-#define THRESHOLD_DISTANCE 0.50     // meters
-#define EMPTY_DISTANCE 2.0
+#define THRESHOLD_DISTANCE 0.10     // meters
+#define EMPTY_DISTANCE 0.50
 
 class WasteDetectTask : public Task {
 
