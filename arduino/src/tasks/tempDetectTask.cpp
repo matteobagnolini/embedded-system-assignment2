@@ -9,7 +9,6 @@ TempDetectTask::TempDetectTask(int pin) {
 void TempDetectTask::init(int period) {
     Task::init(period);
     this->timeOnHighTemp = 0;
-    this->lastTimeCheck = millis();     // can we delete this? We dont need lastTimeCheck in first state
     this->state = NORMAL_TEMP;
     tempProblemDetected = false;
 }
