@@ -26,12 +26,14 @@ def communication_routine():
             handle_message(msg)
 
 def empty_container():
-    msg = ""
-    MsgHandler.sendMsg(msg)
+    msg = 'CNTE:true'
+    msgHandler.sendMsg(msg)
     print("Emptying the container...")
     
 
 def resolve_temperature_problems():
+    msg = 'TMPP:false'
+    msgHandler.sendMsg(msg)
     print("Resolving temperature problems...")
 
 def handle_message(msg):

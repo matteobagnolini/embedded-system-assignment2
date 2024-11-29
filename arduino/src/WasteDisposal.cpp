@@ -4,6 +4,7 @@
 #include "tasks/wasteDetectTask.h"
 #include "tasks/userDetectTask.h"
 #include "tasks/wasteDisposalTask.h"
+#include "tasks/communicationsTask.h"
 
 #include "config.h"
 
@@ -14,7 +15,6 @@ float temperature;
 
 void setup() {
     Serial.begin(9600);
-    Serial.println("Starting program");
     sched.init(SCHEDULER_BASE_PERIOD);
 
     Task *t0 = new TempDetectTask(TEMP_PIN);
@@ -38,7 +38,10 @@ void setup() {
                                     );
     t3->init(WASTE_DISP_TASK_PERIOD);
     sched.addTask(t3);
-    Serial.println("Starting program...");
+
+    Task *t4 = new CommunicationsTask();
+    t4->init(COMM_TASK_PERIOD);
+    sched.addTask(t4);
 }
 
 void loop() {

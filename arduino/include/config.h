@@ -4,6 +4,7 @@
 #define WASTE_DET_TASK_PERIOD 150
 #define USER_DET_TASK_PERIOD 150
 #define WASTE_DISP_TASK_PERIOD 200
+#define COMM_TASK_PERIOD 750
 
 /* =========== DEVICES PINS =========== */
 #define TEMP_PIN A0

@@ -105,6 +105,7 @@ void WasteDisposalTask::tick() {
             lcd->display("EMPTYING THE CONTAINER..");
             if (timeInCurrState >= TIME_TO_EMPTY_CONTAINER_SEC*1000) {
                 state = AVAILABLE;
+                doEmptyContainer = false;
                 redLed->switchOff();
                 greenLed->switchOn();
             }

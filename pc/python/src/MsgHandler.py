@@ -31,7 +31,8 @@ class MsgHandler:
     
     # Send a message to Arduino
     def sendMsg(self, msg):
-        self.arduino.write(msg+"\n").encode('utf-8')
+        encodedMsg = msg+"\n"
+        self.arduino.write(encodedMsg.encode('utf-8'))
     
     # Close the connection with Arduino before the class is been deleted
     def __del__(self):

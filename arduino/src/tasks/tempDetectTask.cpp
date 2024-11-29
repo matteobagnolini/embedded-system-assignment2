@@ -18,7 +18,6 @@ void TempDetectTask::init(int period) {
 void TempDetectTask::tick() {
     long currTime = millis();
     temperature = temp->getTemperature();
-    MsgService.sendMsg((String)temperature);
     bool tempOk = temp->isTempOk();
     switch (state) {
 

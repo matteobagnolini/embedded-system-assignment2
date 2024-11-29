@@ -1,8 +1,8 @@
 #include "tasks/wasteDetectTask.h"
 #include <Arduino.h>
-// #include "globals.h"
+#include "globals.h"
 
-extern bool isContainerFull;
+#include "communications/MsgService.h"
 
 WasteDetectTask::WasteDetectTask(int triggPin, int echoPin) {
     this->sonar = new Sonar(triggPin, echoPin);
@@ -25,6 +25,7 @@ void WasteDetectTask::tick() {
             } else if (dist <= THRESHOLD_DISTANCE) {
                 state = FULL;
                 isContainerFull = true;
+                MsgService.sendMsg("Container Full");
             }
         break;
     
@@ -34,10 +35,12 @@ void WasteDetectTask::tick() {
         } else if (dist <= THRESHOLD_DISTANCE) {
             state = FULL;
             isContainerFull = true;
+            MsgService.sendMsg("Container Full");
         }
         break;
 
     case FULL:
+
         if (dist > THRESHOLD_DISTANCE) {
             state = PARTIAL;
             isContainerFull = false;
