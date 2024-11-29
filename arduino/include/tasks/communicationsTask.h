@@ -11,9 +11,7 @@ public:
     void tick();
 
 private:
-    String currentStates[NUM_GLOBAL_VARIABLES];
     void sendCurrentStates();
     void receiveUpdatedStates();
-    void prepareCurrentStates();
 
 };

@@ -7,15 +7,21 @@ void CommunicationsTask::init(int period) {
 
 void CommunicationsTask::tick() {
     sendCurrentStates();
-    delay(10);
     receiveUpdatedStates();
 }
 
 void CommunicationsTask::sendCurrentStates() {
-    prepareCurrentStates();
-    for (String state : currentStates) {
-        MsgService.sendMsg(state);
+    /* Messages are sent only if problems are detected */
+    if (isContainerFull) {
+        MsgService.sendMsg(String(CONTAINER_FULL_TYPE) + ":true");
     }
+    if (sleepMode) {
+        MsgService.sendMsg(String(SLEEP_MODE_TYPE) + ":true");
+    }
+    if (tempProblemDetected) {
+        MsgService.sendMsg(String(TEMP_PROBLEM_DETECT_TYPE) + ":true");
+    }
+    MsgService.sendMsg(String(TEMPERATURE_TYPE) + ":" + temperature);
 }
 
 void CommunicationsTask::receiveUpdatedStates() {
@@ -31,15 +37,3 @@ void CommunicationsTask::receiveUpdatedStates() {
     if (type == TEMP_PROBLEM_DETECT_TYPE)
         tempProblemDetected = content == "true" ? true : false;
 }
-
-void CommunicationsTask::prepareCurrentStates() {
-    currentStates[0] = String(CONTAINER_FULL_TYPE) + ":" + (isContainerFull ? "true" : "false");
-    currentStates[1] = String(DO_EMPTY_CONTAINER_TYPE) + ":" + (doEmptyContainer ? "true" : "false");
-    currentStates[2] = String(SLEEP_MODE_TYPE) + ":" + (sleepMode ? "true" : "false");
-    currentStates[3] = String(TEMP_PROBLEM_DETECT_TYPE) + ":" + (tempProblemDetected ? "true" : "false");
-    currentStates[4] = String(TEMPERATURE_TYPE) + ":" + temperature;
-
-}
-
-
-

@@ -18,7 +18,7 @@ class MsgHandler:
     
     # Receive a message from Arduino
     def recvMsg(self):
-        self.msg = self.arduino.readall().decode('utf-8').strip()
+        self.msg = self.arduino.readline().decode('utf-8').strip()
         if self.msg != "" or self.msg != None:
             self.msgAvailable = True
     

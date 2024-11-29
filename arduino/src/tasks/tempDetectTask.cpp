@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include "globals.h"
 
+#include "communications/MsgService.h"
+
 TempDetectTask::TempDetectTask(int pin) {
     this->temp = new Temp(pin, MAX_TEMP);
 }
@@ -16,6 +18,7 @@ void TempDetectTask::init(int period) {
 void TempDetectTask::tick() {
     long currTime = millis();
     temperature = temp->getTemperature();
+    MsgService.sendMsg((String)temperature);
     bool tempOk = temp->isTempOk();
     switch (state) {
 
