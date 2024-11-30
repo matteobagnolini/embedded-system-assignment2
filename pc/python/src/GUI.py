@@ -3,6 +3,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import threading
 import time
+from datetime import datetime
 from WasteDisposalHandler import (
     empty_container,
     resolve_temperature_problems,
@@ -14,7 +15,7 @@ from WasteDisposalHandler import (
 )
 
 temperature_data = []
-
+last_empty_time = ""
 
 def update_graph(canvas, ax, line):
     """
@@ -40,7 +41,7 @@ def update_graph(canvas, ax, line):
 
 def message_loop(canvas, ax, line):
     """
-    Loop for updating temeprature graphic.
+    Loop for updating temperature graphic.
     """
     global temperature_data
     while True:
@@ -86,6 +87,20 @@ def update_temperature_status(temp_status_label):
         time.sleep(1)
 
 
+def on_empty_container(filling_label, last_empty_label):
+    """
+    Function to handle the container emptying action and update the last empty time.
+    """
+    global last_empty_time
+    empty_container()
+    if get_container_full():
+        last_empty_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        last_empty_label.config(text=f"Last emptied at: {last_empty_time}")
+    else:
+        last_empty_label.config(text=last_empty_label.cget("text"))
+
+
+
 def create_gui():
     root = tk.Tk()
     root.title("Container Management")
@@ -122,7 +137,10 @@ def create_gui():
     button_container = tk.Frame(control_frame)
     button_container.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
-    btn_empty_container = tk.Button(button_container, text="Empty Container", command=empty_container, width=20, height=2)
+    # Aggiorna la funzione per il pulsante Empty Container
+    btn_empty_container = tk.Button(
+        button_container, text="Empty Container", command=lambda: on_empty_container(filling_label, last_empty_label), width=20, height=2
+    )
     btn_resolve_temp = tk.Button(button_container, text="Resolve Temperature Problems", command=resolve_temperature_problems, width=20, height=2)
 
     btn_empty_container.pack(pady=10)
@@ -136,6 +154,10 @@ def create_gui():
 
     temp_status_label = tk.Label(control_frame, text="Temperature status: Normal", font=("Arial", 14), fg="green")
     temp_status_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+
+    # Etichetta per l'ultimo svuotamento del container
+    last_empty_label = tk.Label(control_frame, text="Last emptied at: N/A", font=("Arial", 12), fg="black")
+    last_empty_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
     threading.Thread(target=message_loop, args=(canvas, ax, line), daemon=True).start()
     threading.Thread(target=update_filling_label, args=(filling_label,), daemon=True).start()
