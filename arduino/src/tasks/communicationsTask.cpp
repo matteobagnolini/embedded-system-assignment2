@@ -11,16 +11,8 @@ void CommunicationsTask::tick() {
 }
 
 void CommunicationsTask::sendCurrentStates() {
-    /* Messages are sent only if problems are detected */
-    if (isContainerFull) {
-        MsgService.sendMsg(String(CONTAINER_FULL_TYPE) + ":true");
-    }
-    if (sleepMode) {
-        MsgService.sendMsg(String(SLEEP_MODE_TYPE) + ":true");
-    }
-    if (tempProblemDetected) {
-        MsgService.sendMsg(String(TEMP_PROBLEM_DETECT_TYPE) + ":true");
-    }
+    MsgService.sendMsg(String(CONTAINER_FULL_TYPE) + (isContainerFull ? ":true" : ":false"));
+    MsgService.sendMsg(String(TEMP_PROBLEM_DETECT_TYPE) + (tempProblemDetected ? ":true" : ":false"));
     MsgService.sendMsg(String(TEMPERATURE_TYPE) + ":" + temperature);
     MsgService.sendMsg(String(FILLING_PERC_TYPE) + ":" + fillingPercentage);
 }
@@ -30,11 +22,11 @@ void CommunicationsTask::receiveUpdatedStates() {
     if (msg == NULL) {
         return;
     }
-    String type = msg->getContent().substring(0, 4);
+    String header = msg->getContent().substring(0, 4);
     String content = msg->getContent().substring(5);
 
-    if (type == DO_EMPTY_CONTAINER_TYPE)
+    if (header == DO_EMPTY_CONTAINER_TYPE)
         doEmptyContainer =  content == "true" ? true : false;
-    if (type == TEMP_PROBLEM_DETECT_TYPE)
+    if (header == TEMP_PROBLEM_DETECT_TYPE)
         tempProblemDetected = content == "true" ? true : false;
 }
