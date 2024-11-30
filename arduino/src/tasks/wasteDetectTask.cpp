@@ -27,7 +27,6 @@ void WasteDetectTask::tick() {
             } else if (dist <= THRESHOLD_DISTANCE) {
                 state = FULL;
                 isContainerFull = true;
-                MsgService.sendMsg("Container Full");
             }
         break;
     
@@ -37,12 +36,10 @@ void WasteDetectTask::tick() {
         } else if (dist <= THRESHOLD_DISTANCE) {
             state = FULL;
             isContainerFull = true;
-            MsgService.sendMsg("Container Full");
         }
         break;
 
     case FULL:
-
         if (dist > THRESHOLD_DISTANCE) {
             state = PARTIAL;
             isContainerFull = false;
