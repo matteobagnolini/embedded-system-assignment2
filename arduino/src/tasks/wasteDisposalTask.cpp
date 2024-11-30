@@ -46,6 +46,10 @@ void WasteDisposalTask::tick() {
                 servoDoor->close();
                 timeInCurrState = 0;
             }
+            if (sleepMode) {
+                state = SLEEP;
+                lcd->turnDisplayOff();
+            }
             if (openButtonPressed) {
                 state = RECEIVING;
                 servoDoor->open();
@@ -119,6 +123,18 @@ void WasteDisposalTask::tick() {
                     state = AVAILABLE;
                 }
             }
+            break;
+
+        case SLEEP:
+            if (tempProblemDetected) {
+                state = PROBLEM_DETECTED;
+                lcd->turnDisplayOn();
+            }
+            if (!sleepMode) {
+                state = AVAILABLE;
+                lcd->turnDisplayOn();
+            }
+            break;
 
     }
     lastTimeCheck = currTime;

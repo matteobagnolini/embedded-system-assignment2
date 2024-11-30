@@ -43,7 +43,8 @@ private:
            RECEIVED,
            CONTAINER_FULL,
            EMPTYING,
-           PROBLEM_DETECTED
+           PROBLEM_DETECTED,
+           SLEEP
           } state;
 
 };

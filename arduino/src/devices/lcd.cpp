@@ -14,3 +14,11 @@ void LCD::display(const char *msg) {
 void LCD::clear() {
     lcd.clear();
 }
+
+void LCD::turnDisplayOn() {
+    lcd.setBacklight(HIGH);
+}
+
+void LCD::turnDisplayOff() {
+    lcd.setBacklight(LOW);
+}
