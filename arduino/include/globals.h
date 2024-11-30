@@ -11,6 +11,7 @@
 #define SLEEP_MODE_TYPE "SLPM"
 #define TEMP_PROBLEM_DETECT_TYPE "TMPP"
 #define TEMPERATURE_TYPE "TEMP"
+#define FILLING_PERC_TYPE "FILL"
 
 /* These variables are used to permit the comunication between different tasks */
 extern bool isContainerFull;
@@ -18,3 +19,4 @@ extern bool doEmptyContainer;
 extern bool sleepMode;
 extern bool tempProblemDetected;
 extern float temperature;
+extern float fillingPercentage;

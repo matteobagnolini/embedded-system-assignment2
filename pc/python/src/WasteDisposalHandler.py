@@ -13,7 +13,7 @@ isContainerFull = False
 doEmptyContainer = False
 sleepMode = False
 tempProblemDetected = False
-lastTemperature = 0.0
+lastTemperature = None
 
 msgHandler = MsgHandler(port, baudRate)
 
@@ -42,7 +42,8 @@ def handle_message(msg):
     content = msg[5:]
     if header == "TEMP":
         lastTemperature = float(content)
-        print(float(content))
+    if header == "FILL":
+        print(content)
     
 def receive_temp():
         return lastTemperature

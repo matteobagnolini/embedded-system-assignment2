@@ -39,7 +39,6 @@ def message_loop(canvas, ax, line):
     while True:
         # Simula la ricezione della temperatura (sostituisci con dati reali se disponibili)
         new_temperature = receive_temp()
-        # print(new_temperature)
         temperature_data.append(new_temperature)
         if len(temperature_data) > 500:  # Limita la lunghezza massima per evitare uso eccessivo di memoria
             temperature_data = temperature_data[-500:]
@@ -52,7 +51,7 @@ def create_gui():
     # Creazione della finestra principale
     root = tk.Tk()
     root.title("Container Management")
-    root.geometry("1200x800")  # Imposta una dimensione iniziale di 800x400 pixel
+    root.geometry("1200x800")  # Imposta una dimensione iniziale di 1200x800 pixel
 
     # Centra la finestra sullo schermo
     root.update_idletasks()
@@ -67,11 +66,11 @@ def create_gui():
     main_frame.pack(fill=tk.BOTH, expand=True)
 
     # Creazione di un frame per il grafico
-    graph_frame = tk.Frame(main_frame, width=300, height=100)
-    graph_frame.pack(side=tk.LEFT, fill=tk.BOTH, padx=10, pady=10)
+    graph_frame = tk.Frame(main_frame, width=400, height=200)
+    graph_frame.pack(side=tk.LEFT, padx=10, pady=10)
 
     # Creazione del grafico
-    fig, ax = plt.subplots(figsize=(5, 2))  # Dimensioni più compatte del grafico
+    fig, ax = plt.subplots(figsize=(6, 3))  # Più largo rispetto all'altezza
     ax.set_title("Temperature Graphic")
     ax.set_xlabel("Time")
     ax.set_ylabel("Temperature")
@@ -79,7 +78,7 @@ def create_gui():
     ax.grid(True)
 
     # Linea del grafico inizializzata con valori vuoti
-    line, = ax.plot([], [], color='red', marker='o')
+    line, = ax.plot([], [], color='red', linestyle='-')  # Linea senza marcatori giganti
 
     # Aggiunta del grafico alla GUI
     canvas = FigureCanvasTkAgg(fig, master=graph_frame)
@@ -88,19 +87,22 @@ def create_gui():
 
     # Creazione di un frame per i pulsanti
     button_frame = tk.Frame(main_frame)
-    button_frame.pack(side=tk.RIGHT, fill=tk.Y, padx=10, pady=10)
+    button_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+    # Creazione di un contenitore per centrare i pulsanti
+    button_container = tk.Frame(button_frame)
+    button_container.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     # Creazione dei pulsanti
-    btn_empty_container = tk.Button(button_frame, text="Empty Container", command=empty_container, width=20, height=2)
-    btn_resolve_temp = tk.Button(button_frame, text="Resolve Temperature Problems", command=resolve_temperature_problems, width=20, height=2)
+    btn_empty_container = tk.Button(button_container, text="Empty Container", command=empty_container, width=20, height=2)
+    btn_resolve_temp = tk.Button(button_container, text="Resolve Temperature Problems", command=resolve_temperature_problems, width=20, height=2)
 
     # Posizionamento dei pulsanti
-    btn_empty_container.pack(pady=20)
-    btn_resolve_temp.pack(pady=20)
+    btn_empty_container.pack(pady=10)
+    btn_resolve_temp.pack(pady=10)
 
     # Avvio del thread per aggiornare i dati e il grafico
     threading.Thread(target=message_loop, args=(canvas, ax, line), daemon=True).start()
-
 
     # Avvio del loop principale della GUI
     root.mainloop()

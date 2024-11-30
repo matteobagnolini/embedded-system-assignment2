@@ -22,6 +22,7 @@ void CommunicationsTask::sendCurrentStates() {
         MsgService.sendMsg(String(TEMP_PROBLEM_DETECT_TYPE) + ":true");
     }
     MsgService.sendMsg(String(TEMPERATURE_TYPE) + ":" + temperature);
+    MsgService.sendMsg(String(FILLING_PERC_TYPE) + ":" + fillingPercentage);
 }
 
 void CommunicationsTask::receiveUpdatedStates() {
