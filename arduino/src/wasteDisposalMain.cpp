@@ -10,6 +10,7 @@
 
 Scheduler sched;
 
+/* Global variables declarations */
 bool isContainerFull, sleepMode, tempProblemDetected, isTempProblemResolved, doEmptyContainer;
 float temperature, fillingPercentage;
 
