@@ -16,7 +16,8 @@ void WasteDetectTask::init(int period) {
 
 void WasteDetectTask::tick() {
     float dist = sonar->getDistance();
-    fillingPercentage = 100*(dist - THRESHOLD_DISTANCE) / (EMPTY_DISTANCE - THRESHOLD_DISTANCE) - 1.0;
+    // fillingPercentage = 100*(dist - THRESHOLD_DISTANCE) / (EMPTY_DISTANCE - THRESHOLD_DISTANCE);
+    fillingPercentage = 100*(dist - EMPTY_DISTANCE) / (THRESHOLD_DISTANCE - EMPTY_DISTANCE);
     switch (state) {
 
         case EMPTY:
