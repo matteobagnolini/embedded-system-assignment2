@@ -48,6 +48,7 @@ void WasteDisposalTask::tick() {
             }
             if (sleepMode) {
                 state = SLEEP;
+                lcd->display("GOING IN SLEEP MODE...");
                 lcd->turnDisplayOff();
             }
             if (openButtonPressed) {
