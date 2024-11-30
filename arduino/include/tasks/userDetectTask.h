@@ -3,7 +3,7 @@
 #include "scheduler/task.h"
 #include "hardware/pir.h"
 
-#define TIME_BEFORE_SLEEP_SEC 5
+#define TIME_BEFORE_SLEEP_SEC 30
 
 class UserDetectTask : public Task {
 
