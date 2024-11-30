@@ -4,9 +4,10 @@
 #include "hardware/temp.h"
 
 #define MAX_TEMP 18.0
-#define MAX_TIME_ON_HIGH_TEMP 5        // seconds
+#define MAX_TIME_ON_HIGH_TEMP_SEC 5
 
 class TempDetectTask : public Task {
+
 public:
     TempDetectTask(int pin);
     void init(int period);
@@ -18,4 +19,5 @@ private:
     int timeOnHighTemp;
     int lastTimeCheck;
     enum { NORMAL_TEMP, HIGH_TEMP, PROBLEM_DETECTED } state;
+
 };

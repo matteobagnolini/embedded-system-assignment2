@@ -34,6 +34,7 @@ private:
     Button *closeButton;
     ServoMotor *servoDoor;
     LCD *lcd;
+
     unsigned long lastTimeCheck;
     unsigned long timeInCurrState;
     

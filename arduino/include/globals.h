@@ -1,3 +1,5 @@
+/* ********** Global Variables File ********** */
+
 #pragma once
 
 /* ============ Global Variables ============ */

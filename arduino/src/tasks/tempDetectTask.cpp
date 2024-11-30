@@ -34,7 +34,7 @@ void TempDetectTask::tick() {
             } else {
                 timeOnHighTemp += currTime - lastTimeCheck;
             }
-            if (timeOnHighTemp >= MAX_TIME_ON_HIGH_TEMP*1000) {
+            if (timeOnHighTemp >= MAX_TIME_ON_HIGH_TEMP_SEC*1000) {
                 state = PROBLEM_DETECTED;
                 tempProblemDetected = true;
             }

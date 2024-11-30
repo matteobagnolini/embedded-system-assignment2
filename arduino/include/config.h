@@ -1,9 +1,13 @@
+/* ********* Configuration File ********* */
+
+#pragma once
+
 /* =========== TASKS PERIODS =========== */
 #define SCHEDULER_BASE_PERIOD 50
 #define TEMP_TASK_PERIOD 150
 #define WASTE_DET_TASK_PERIOD 150
 #define USER_DET_TASK_PERIOD 150
-#define WASTE_DISP_TASK_PERIOD 200
+#define WASTE_DISP_TASK_PERIOD 150
 #define COMM_TASK_PERIOD 750
 
 /* =========== DEVICES PINS =========== */

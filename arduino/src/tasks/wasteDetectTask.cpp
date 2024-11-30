@@ -1,7 +1,6 @@
 #include "tasks/wasteDetectTask.h"
 #include <Arduino.h>
 #include "globals.h"
-
 #include "communications/MsgService.h"
 
 WasteDetectTask::WasteDetectTask(int triggPin, int echoPin) {
@@ -16,7 +15,6 @@ void WasteDetectTask::init(int period) {
 
 void WasteDetectTask::tick() {
     float dist = sonar->getDistance();
-    // fillingPercentage = 100*(dist - THRESHOLD_DISTANCE) / (EMPTY_DISTANCE - THRESHOLD_DISTANCE);
     fillingPercentage = 100*(dist - EMPTY_DISTANCE) / (THRESHOLD_DISTANCE - EMPTY_DISTANCE);
     switch (state) {
 
