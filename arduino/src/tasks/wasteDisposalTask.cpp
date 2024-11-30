@@ -29,14 +29,13 @@ void WasteDisposalTask::init(int period) {
     lcd = new LCD();
     state = AVAILABLE;
     servoDoor->close();
-    lcd->display("Init completed..");
-    Serial.println("Init completed");
 }
 
 void WasteDisposalTask::tick() {
     unsigned long currTime = millis();
     bool openButtonPressed = openButton->isPressed();
     bool closeButtonPressed = closeButton->isPressed();
+    timeInCurrState += currTime - lastTimeCheck;
     switch (state) {
         
         case AVAILABLE:
@@ -58,7 +57,6 @@ void WasteDisposalTask::tick() {
             break;
         
         case RECEIVING:            
-            timeInCurrState += currTime - lastTimeCheck;
             lcd->display("PRESS CLOSE WHEN DONE");
             if ( isContainerFull ||
                  timeInCurrState >= MAX_TIME_TO_RECEIVE_WASTE_SEC*1000 ||
@@ -74,7 +72,6 @@ void WasteDisposalTask::tick() {
             break;
         
         case RECEIVED:
-            timeInCurrState += currTime - lastTimeCheck;
             lcd->display("WASTE RECEIVED");
             if (isContainerFull) {
                 state = CONTAINER_FULL;
@@ -85,7 +82,7 @@ void WasteDisposalTask::tick() {
                 timeInCurrState = 0;
             }
             break;
-        
+
         case CONTAINER_FULL:
             greenLed->switchOff();
             redLed->switchOn();
@@ -101,7 +98,6 @@ void WasteDisposalTask::tick() {
             break;
         
         case EMPTYING:
-            timeInCurrState += currTime - lastTimeCheck;
             lcd->display("EMPTYING THE CONTAINER..");
             if (timeInCurrState >= TIME_TO_EMPTY_CONTAINER_SEC*1000) {
                 state = AVAILABLE;
