@@ -3,10 +3,12 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import threading
 import time
-from WasteDisposalHandler import empty_container, resolve_temperature_problems, receive_temp, communication_routine
+from WasteDisposalHandler import empty_container, resolve_temperature_problems, receive_temp, communication_routine, get_filling_perc
 
 # Variabile globale per contenere i valori della temperatura
 temperature_data = []
+stop_blinking = threading.Event()  # Event per controllare il lampeggio
+
 
 def update_graph(canvas, ax, line):
     """
@@ -31,6 +33,7 @@ def update_graph(canvas, ax, line):
     # Aggiorna il canvas
     canvas.draw()
 
+
 def message_loop(canvas, ax, line):
     """
     Ciclo infinito che aggiorna i dati della temperatura e il grafico.
@@ -46,6 +49,39 @@ def message_loop(canvas, ax, line):
         # Aggiorna il grafico
         update_graph(canvas, ax, line)
         time.sleep(1)
+
+
+def update_filling_label(filling_label):
+    """
+    Aggiorna la percentuale di riempimento del container.
+    """
+    global stop_blinking
+
+    def toggle_color():
+        """
+        Alterna il colore tra rosso e trasparente (per il lampeggio).
+        """
+        if not stop_blinking.is_set():
+            current_color = filling_label.cget("foreground")
+            new_color = "red" if current_color == "white" else "white"
+            filling_label.config(foreground=new_color)
+            filling_label.after(500, toggle_color)
+
+    while True:
+        # Ottieni la percentuale di riempimento
+        filling_percentage = max(0, min(get_filling_perc(), 100))  # Limita il range tra 0 e 100
+        if filling_percentage < 100:
+            stop_blinking.set()  # Ferma il lampeggio
+            filling_text = f"Container filling: {filling_percentage}%"  # Testo normale
+            filling_label.config(text=filling_text, foreground="black")  # Nessun lampeggio
+        else:
+            stop_blinking.clear()  # Abilita il lampeggio
+            filling_text = "Warning! The container is FULL"
+            filling_label.config(text=filling_text, foreground="red")
+            toggle_color()  # Avvia lampeggio
+
+        time.sleep(1)
+
 
 def create_gui():
     # Creazione della finestra principale
@@ -91,7 +127,7 @@ def create_gui():
 
     # Creazione di un contenitore per centrare i pulsanti
     button_container = tk.Frame(button_frame)
-    button_container.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    button_container.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
 
     # Creazione dei pulsanti
     btn_empty_container = tk.Button(button_container, text="Empty Container", command=empty_container, width=20, height=2)
@@ -101,11 +137,19 @@ def create_gui():
     btn_empty_container.pack(pady=10)
     btn_resolve_temp.pack(pady=10)
 
+    # Creazione di un'etichetta per la percentuale di riempimento
+    filling_label = tk.Label(button_frame, text="Container filling: 0%", font=("Arial", 14), fg="black")
+    filling_label.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+
     # Avvio del thread per aggiornare i dati e il grafico
     threading.Thread(target=message_loop, args=(canvas, ax, line), daemon=True).start()
 
+    # Avvio del thread per aggiornare l'etichetta della percentuale
+    threading.Thread(target=update_filling_label, args=(filling_label,), daemon=True).start()
+
     # Avvio del loop principale della GUI
     root.mainloop()
+
 
 if __name__ == "__main__":
     threading.Thread(target=communication_routine, daemon=True).start()
