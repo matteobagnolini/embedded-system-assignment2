@@ -89,7 +89,7 @@ def update_temperature_status(temp_status_label):
 
 def on_empty_container(filling_label, last_empty_label):
     """
-    Function to handle the container emptying action and update the last empty time.
+    Handle the container emptying action and update the last empty time.
     """
     global last_empty_time
     empty_container()
@@ -100,6 +100,14 @@ def on_empty_container(filling_label, last_empty_label):
         last_empty_label.config(text=last_empty_label.cget("text"))
 
 
+def update_temperature_label(temp_label):
+    """
+    Udpdate the label for the current temperature.
+    """
+    while True:
+        current_temp = receive_temp()
+        temp_label.config(text=f"Current Temperature: {current_temp}°C")
+        time.sleep(1)
 
 def create_gui():
     root = tk.Tk()
@@ -137,7 +145,6 @@ def create_gui():
     button_container = tk.Frame(control_frame)
     button_container.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
-    # Aggiorna la funzione per il pulsante Empty Container
     btn_empty_container = tk.Button(
         button_container, text="Empty Container", command=lambda: on_empty_container(filling_label, last_empty_label), width=20, height=2
     )
@@ -155,14 +162,17 @@ def create_gui():
     temp_status_label = tk.Label(control_frame, text="Temperature status: Normal", font=("Arial", 14), fg="green")
     temp_status_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
-    # Etichetta per l'ultimo svuotamento del container
     last_empty_label = tk.Label(control_frame, text="Last emptied at: N/A", font=("Arial", 12), fg="black")
     last_empty_label.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+
+    temp_label = tk.Label(control_frame, text="Current Temperature: 0°C", font=("Arial", 12), fg="blue")
+    temp_label.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
     threading.Thread(target=message_loop, args=(canvas, ax, line), daemon=True).start()
     threading.Thread(target=update_filling_label, args=(filling_label,), daemon=True).start()
     threading.Thread(target=update_container_warning, args=(container_warning_label,), daemon=True).start()
     threading.Thread(target=update_temperature_status, args=(temp_status_label,), daemon=True).start()
+    threading.Thread(target=update_temperature_label, args=(temp_label,), daemon=True).start()
 
     root.mainloop()
 
