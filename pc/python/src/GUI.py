@@ -92,8 +92,8 @@ def on_empty_container(filling_label, last_empty_label):
     Handle the container emptying action and update the last empty time.
     """
     global last_empty_time
-    empty_container()
     if get_container_full():
+        empty_container()
         last_empty_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         last_empty_label.config(text=f"Last emptied at: {last_empty_time}")
     else:
