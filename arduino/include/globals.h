@@ -6,14 +6,13 @@
 
 #define NUM_GLOBAL_VARIABLES 5
 
-/* ============ Communication Types ============ */
-/* These symbols are used as an header for serial communications */
-#define CONTAINER_FULL_TYPE "CNTF"
-#define DO_EMPTY_CONTAINER_TYPE "CNTE"
-#define SLEEP_MODE_TYPE "SLPM"
-#define TEMP_PROBLEM_DETECT_TYPE "TMPP"
-#define TEMPERATURE_TYPE "TEMP"
-#define FILLING_PERC_TYPE "FILL"
+/* ============ Communication Headers ============ */
+/* These symbols are used as an header for serial communication messages */
+#define CONTAINER_FULL_HEADER "CNTF"
+#define DO_EMPTY_CONTAINER_HEADER "CNTE"
+#define TEMP_PROBLEM_DETECT_HEADER "TMPP"
+#define TEMPERATURE_HEADER "TEMP"
+#define FILLING_PERC_HEADER "FILL"
 
 /* These variables are used to permit the comunication between different tasks */
 extern bool isContainerFull;
