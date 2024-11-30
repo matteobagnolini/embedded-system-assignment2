@@ -118,8 +118,10 @@ void WasteDisposalTask::tick() {
             if (!tempProblemDetected) {
                 if (isContainerFull)
                     state = CONTAINER_FULL;
-                else
+                else {
+                    redLed->switchOff();
                     state = AVAILABLE;
+                }
             }
 
     }
