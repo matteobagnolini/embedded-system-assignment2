@@ -6,7 +6,7 @@ LCD::LCD() : lcd(LCD_I2C_ADDR, LCD_COLS, LCD_ROWS) {
     lcd.backlight();
 }
 
-void LCD::display(char *msg) {
+void LCD::display(const char *msg) {
     lcd.clear();
     lcd.print(msg);
 }

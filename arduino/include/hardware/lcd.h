@@ -11,7 +11,7 @@ class LCD : public UserLCD {
 
 public:
     LCD();
-    void display(char *msg);
+    void display(const char *msg);
     void clear();
 
 private:

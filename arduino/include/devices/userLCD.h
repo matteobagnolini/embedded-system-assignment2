@@ -2,7 +2,7 @@
 
 class UserLCD {
 
-    virtual void display(char *msg);
+    virtual void display(const char *msg);
     virtual void clear();
 
 };
