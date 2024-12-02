@@ -15,7 +15,7 @@ public:
 
 private:
     int pin;
-    Sonar *sonar;
+    WasteDetector *sonar;
     enum { EMPTY, PARTIAL, FULL } state;
 
 };

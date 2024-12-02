@@ -2,8 +2,6 @@
 #include <Arduino.h>
 #include "globals.h"
 
-#include "communications/MsgService.h"
-
 TempDetectTask::TempDetectTask(int pin) {
     this->temp = new Temp(pin, MAX_TEMP);
 }

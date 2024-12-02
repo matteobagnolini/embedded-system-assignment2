@@ -28,12 +28,12 @@ private:
     int openButtonPin;
     int closeButtonPin;
     int servoMotorPin;
-    Led *greenLed;
-    Led *redLed;
-    Button *openButton;
-    Button *closeButton;
-    ServoMotor *servoDoor;
-    LCD *lcd;
+    Light *greenLed;
+    Light *redLed;
+    PushDevice *openButton;
+    PushDevice *closeButton;
+    Door *servoDoor;
+    UserLCD *lcd;
 
     unsigned long lastTimeCheck;
     unsigned long timeInCurrState;

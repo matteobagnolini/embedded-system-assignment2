@@ -1,7 +1,6 @@
 #include "tasks/wasteDetectTask.h"
 #include <Arduino.h>
 #include "globals.h"
-#include "communications/MsgService.h"
 
 WasteDetectTask::WasteDetectTask(int triggPin, int echoPin) {
     this->sonar = new Sonar(triggPin, echoPin);

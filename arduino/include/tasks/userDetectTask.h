@@ -13,7 +13,7 @@ public:
     void tick();
 
 private:
-    Pir *pir;
+    UserDetector *pir;
     int timeElapsedNoDetection;
     int lastTimeCheck;
     enum { SLEEP, READY } state;

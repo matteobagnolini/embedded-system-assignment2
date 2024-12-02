@@ -15,7 +15,7 @@ public:
 
 private:
     int pin;
-    Temp *temp;
+    TempDetector *temp;
     int timeOnHighTemp;
     int lastTimeCheck;
     enum { NORMAL_TEMP, HIGH_TEMP, PROBLEM_DETECTED } state;
