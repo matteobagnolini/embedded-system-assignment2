@@ -109,6 +109,7 @@ void WasteDisposalTask::tick() {
                 doEmptyContainer = false;
                 redLed->switchOff();
                 greenLed->switchOn();
+                servoDoor->close();
             }
             break;
 
